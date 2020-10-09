@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Movie Database</title>
+    <script src="keys/keys.js"></script>
+    <script src="js/script.js" defer></script>
+    <script src="js/jquery-3.5.1.js"></script>
+    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+</head>
+<body>
+
+    <header>
+        <h1>Movie Database</h1>
+    </header>
+    
+        <label for="searchType">Search for: </label>
+            <select name="searchType" id="searchType">
+                <option value="person">Person</option>
+                <option value="movie">Movie</option>
+            </select>
+        <input type="text" id="searchInput" value="Steven">
+        <input type="submit" value="Search" id="searchSubmitBtn">
+
+    <div id="resultsDiv"></div>
+    <div class="modalHidden" id="personModal">
+        <div class="modalContent" id="modalInner"> 
+            <span class="closeBtn">&times;</span>
+
+        </div>
+    </div>
+</body>
+</html>
