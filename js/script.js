@@ -59,9 +59,6 @@ $(document).ready(function() {
             //build the modal with data
             $('<h3></h3>').append(data.name).appendTo('#modalInner');
             $('<p></p>').append(data.known_for_department).appendTo('#modalInner');
-            impagePath = getImagePath(data.profile_path)
-            console.log(imagePath)
-            $(`<img src='${imagePath}'></img>`)
             $('<p></p>').append(data.birthday).appendTo('#modalInner');
             $('<p></p>').append(data.place_of_birth).appendTo('#modalInner');
     
