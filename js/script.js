@@ -29,6 +29,8 @@ $(document).ready(function() {
                     data.results.forEach(element => {
                         // save id for later should look into using the data attribute
                         $("<div></div>").attr({id:`${element.id}`, class:'personResultDiv'}).appendTo('#resultsDiv');
+                        $("<p></p>").append(element.name).appendTo(`div#${element.id}`);
+                        $("<p></p>").append(element.known_for_department).appendTo(`div#${element.id}`);
                         
                         // request image
                         $.get(`https://api.themoviedb.org/3/configuration?api_key=${movieAPIKey}`, function(data, status) {
@@ -37,10 +39,7 @@ $(document).ready(function() {
                             request = baseURL + imgSize + element.profile_path;
                             $(`<img src='${request}' width="300">`).appendTo(`div#${element.id}`);
                         });
-                        $("<p></p>").append(element.name).appendTo(`div#${element.id}`);
-                        $("<p></p>").append(element.known_for_department).appendTo(`div#${element.id}`);
-                        $("<p></p>").append("*************************************").appendTo(`div#${element.id}`);
-                });
+                    });
                 default:
                 break;
             }
