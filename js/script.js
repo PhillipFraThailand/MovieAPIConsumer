@@ -25,12 +25,21 @@ $(document).ready(function() {
                             $("<p></p>").append("**************************************").appendTo(`div#${element.id}`);
                 });
                 case 'person': 
+                console.log(data)
                     data.results.forEach(element => {
-                        // save id for later
+                        // save id for later should look into using the data attribute
                         $("<div></div>").attr({id:`${element.id}`, class:'personResultDiv'}).appendTo('#resultsDiv');
-                            $("<p></p>").append(element.name).appendTo(`div#${element.id}`);
-                            $("<p></p>").append(element.known_for_department).appendTo(`div#${element.id}`);
-                            $("<p></p>").append("*************************************").appendTo(`div#${element.id}`);
+                        
+                        // request image
+                        $.get(`https://api.themoviedb.org/3/configuration?api_key=${movieAPIKey}`, function(data, status) {
+                            baseURL = data.images.base_url;
+                            imgSize = data.images.backdrop_sizes[0]; // 'w300', 'w780', 'w1280', 'original'
+                            request = baseURL + imgSize + element.profile_path;
+                            $(`<img src='${request}' width="300">`).appendTo(`div#${element.id}`);
+                        });
+                        $("<p></p>").append(element.name).appendTo(`div#${element.id}`);
+                        $("<p></p>").append(element.known_for_department).appendTo(`div#${element.id}`);
+                        $("<p></p>").append("*************************************").appendTo(`div#${element.id}`);
                 });
                 default:
                 break;
@@ -51,11 +60,14 @@ $(document).ready(function() {
             //build the modal with data
             $('<h3></h3>').append(data.name).appendTo('#modalInner');
             $('<p></p>').append(data.known_for_department).appendTo('#modalInner');
+            impagePath = getImagePath(data.profile_path)
+            console.log(imagePath)
+            $(`<img src='${imagePath}'></img>`)
             $('<p></p>').append(data.birthday).appendTo('#modalInner');
             $('<p></p>').append(data.place_of_birth).appendTo('#modalInner');
     
             // check deathday make a switch
-             if (data['deathday'] === null) {
+            if (data['deathday'] === null) {
                  console.log("No deathday");
                 } else {
                 $('<p></p>').append(data.deathday).appendTo('#modalInner');
@@ -65,7 +77,7 @@ $(document).ready(function() {
             $('<p></p>').append(data.biography).appendTo('#modalInner');
             $('<p></p>').append(data.homepage).appendTo('#modalInner');
 
-            //worked in 
+            // worked in 
             $('<p></p>').append("Worked in: ").appendTo('#modalInner');
             data.movie_credits.cast.forEach(element => {
                 $('<p></p>').append('Title: ',element.original_title,', Release ', element.release_date, ', Role: ', element.character,'.').appendTo('#modalInner')
@@ -82,21 +94,4 @@ $(document).ready(function() {
         $('.modalShown').removeClass('modalShown');
     });
 
-    // <p><img src = "link" width> </p>
-    // TODO
-    //gets a picture from filepath
-    function getImagePath (filePath) {
-        //global variable
-        window.imagePath;
-
-        // request the picture
-        $.get(`https://api.themoviedb.org/3/configuration?api_key=${movieAPIKey}`, function(data, status){
-            baseURL = data.images.base_url;
-            imgSize = data.images.backdrop_sizes[0]; // 'w300', 'w780', 'w1280', 'original'
-            request = baseURL + imgSize + filePath;
-            console.log('Retrieving image at: ',request)
-            window.imagePath = request;
-            return window.imagePath;
-        });
-    }
 });
